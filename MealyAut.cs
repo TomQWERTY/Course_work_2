@@ -8,28 +8,43 @@ namespace CourseWork2
 {
     class MealyAut : Automaton
     {
-        List<List<string>> outs;
+        List<string[]> outs;
 
         public MealyAut() : base()
         {
-            outs = new List<List<string>>();
+            outs = new List<string[]>();
+            allTransPresent = true;
         }
 
-        public override void FillFromStrings(string[] input)
+        public override void FillFromStrings(List<string> input)
         {
             FillStates(input);
-            for (int i = input.Length - symbolsCount, k = 0; i < input.Length; i++, k++)
+            for (int i = input.Count - symbolsCount, k = 0; i < input.Count; i++, k++)
             {
-                string[] str = input[i].Trim().Split(' ');
-                outs.Add(new List<string>());
+                string[] str = input[i].TrimEnd().Split(' ');
+                outs.Add(new string[statesCount]);
                 for (int j = 0; j < statesCount; j++)
                 {
-                    outs[k].Add(str[j]);
+                    try
+                    {
+                        if (str[j] != "")
+                        {
+                            outs[k][j] = str[j];
+                        }
+                        else
+                        {
+                            throw new Exception();
+                        }
+                    }
+                    catch (Exception)
+                    {
+                        throw new AutTableException(j, k, false);
+                    }
                 }
             }
         }
 
-        public override void CreateGroups()
+        protected override void CreateGroups()
         {
             groups = new List<List<State>>();
             List<State> temp = states;
@@ -74,17 +89,19 @@ namespace CourseWork2
             }
         }
 
-        public override string[] OutputMinimizedToStrings()
+        public override List<string> OutputMinimizedToStrings()
         {
-            string[] output = new string[symbolsCount * 2];
-            OutputMinimizedStatesToStrings(ref output);
+            List<string> output = new List<string>();
+            MinimizedStatesToStrings(ref output);
             for (int i = 0; i < symbolsCount; i++)
             {
-                output[i + symbolsCount] = "";
+                StringBuilder strbl = new StringBuilder();
                 for (int j = 0; j < GroupCount; j++)
                 {
-                    output[i + symbolsCount] += outs[i][groups[j][0].Num] + " ";
+                    strbl.Append(outs[i][groups[j][0].Num]);
+                    strbl.Append(" ");
                 }
+                output.Add(strbl.ToString());
             }
             return output;
         }

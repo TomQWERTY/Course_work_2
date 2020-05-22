@@ -6,11 +6,59 @@ using System.Threading.Tasks;
 
 namespace CourseWork2
 {
+    class AutTableException : Exception
+    {
+        int stateNum, symbNum;
+        bool transTable;
+
+        public AutTableException(int stateNum_, int symbNum_, bool transTable_) : base("Некоректне значення в табличному поданні автомата")
+        {
+            stateNum = stateNum_;
+            symbNum = symbNum_;
+            transTable = transTable_;
+        }
+
+        public int StateNum
+        {
+            get
+            {
+                return stateNum;
+            }
+        }
+
+        public int SymbNum
+        {
+            get
+            {
+                return symbNum;
+            }
+        }
+
+        public bool TransTable
+        {
+            get
+            {
+                return transTable;
+            }
+        }
+    }
+
+    class AutTypeException : Exception
+    {
+        public AutTypeException() : base("Невідповідність типу автомату.") { }
+    }
+
+    enum AutType
+    {
+        TRecognizer, NRecognizer, MooreAut, MealyAut
+    }
+
     abstract class Automaton
     {
         protected List<State> states;
         protected List<List<State>> groups;
         protected int startStateNum, symbolsCount, statesCount;
+        protected bool? allTransPresent;
 
         public Automaton()
         {
@@ -19,9 +67,16 @@ namespace CourseWork2
             startStateNum = 0;
             symbolsCount = 0;
             statesCount = 0;
+            allTransPresent = null;
         }
 
-        public void Algorithm()
+        public virtual void Minimize()
+        {
+            CreateGroups();
+            Algorithm();
+        }
+
+        private void Algorithm()
         {
             bool equivalent = false;
             while (!equivalent)
@@ -71,51 +126,50 @@ namespace CourseWork2
             }
         }
 
-        protected void FillStates(string[] input)
+        protected void FillStates(List<string> input)
         {
             symbolsCount = Convert.ToInt32(input[0]);
             statesCount = Convert.ToInt32(input[1]);
-            startStateNum = Convert.ToInt32(input[2]);
+            startStateNum = Convert.ToInt32(input[2]);           
+            states.Clear();
             for (int i = 0; i < statesCount; i++)
             {
                 states.Add(new State(symbolsCount, i));
             }
             for (int i = 0; i < symbolsCount; i++)
             {
-                string[] str = input[i + 3].Trim().Split(' ');
+                string[] str = input[i + 3].TrimEnd().Split(' ');
                 for (int j = 0; j < statesCount; j++)
                 {
-                    states[j][i] = states[Convert.ToInt32(str[j])];
+                    try
+                    {
+                        if (allTransPresent.Value || str[j] != "-")
+                        {
+                            states[j][i] = states[Convert.ToInt32(str[j])];
+                        }
+                    }
+                    catch (Exception)
+                    {
+                        throw new AutTableException(j, i, true);
+                    }
                 }
             }
         }
 
-        virtual public void FillFromStrings(string[] input) { }
+        virtual public void FillFromStrings(List<string> input) { }
 
-        virtual public void CreateGroups() { }
+        virtual protected void CreateGroups() { }
 
-        public int StartStateNum
+        public string OldStateNumbers(int i)
         {
-            get
+            StringBuilder strbl = new StringBuilder();
+            for (int j = 0; j < groups[i].Count; j++)
             {
-                return startStateNum;
+                strbl.Append(groups[i][j].Num);
+                strbl.Append(", ");
             }
-            set
-            {
-                startStateNum = value;
-            }
-        }
-
-        public State this[int i]
-        {
-            get
-            {
-                return states[i];
-            }
-            set
-            {
-                states[i] = value;
-            }
+            string str = strbl.ToString();
+            return str.Substring(0, str.Length - 2);
         }
 
         public int GroupCount
@@ -141,21 +195,30 @@ namespace CourseWork2
             return 0;
         }
 
-        protected void OutputMinimizedStatesToStrings(ref string[] output)
+        protected void MinimizedStatesToStrings(ref List<string> output)
         {
             for (int i = 0; i < symbolsCount; i++)
             {
-                output[i] = "";
+                StringBuilder strbl = new StringBuilder();
                 for (int j = 0; j < GroupCount; j++)
                 {
-                    output[i] += groups[j][0][i] + " ";
+                    if (groups[j][0][i] != null)
+                    {
+                        strbl.Append(groups[j][0][i]);
+                    }
+                    else
+                    {
+                        strbl.Append("-");
+                    }
+                    strbl.Append(" ");
                 }
+                output.Add(strbl.ToString());
             }
         }
 
-        virtual public string[] OutputMinimizedToStrings()
+        virtual public List<string> OutputMinimizedToStrings()
         {
-            return new string[1];
+            return new List<string>();
         }
     }
 }

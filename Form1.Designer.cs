@@ -47,7 +47,7 @@
             this.accept2 = new System.Windows.Forms.Button();
             this.accept1 = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.recogRadioButton = new System.Windows.Forms.RadioButton();
+            this.nRecogRadioButton = new System.Windows.Forms.RadioButton();
             this.loadButton = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
@@ -94,6 +94,7 @@
             this.mainTableIn.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
             this.mainTableIn.Size = new System.Drawing.Size(54, 18);
             this.mainTableIn.TabIndex = 14;
+            this.mainTableIn.CellValidated += new System.Windows.Forms.DataGridViewCellEventHandler(this.mainTableIn_CellValidated);
             // 
             // numOfStatesTextBox
             // 
@@ -185,6 +186,7 @@
             this.mainTableOut.Size = new System.Drawing.Size(37, 16);
             this.mainTableOut.TabIndex = 10;
             this.mainTableOut.TabStop = false;
+            this.mainTableOut.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.mainTableOut_CellFormatting);
             // 
             // cleanT1Button
             // 
@@ -271,7 +273,7 @@
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.recogRadioButton);
+            this.groupBox1.Controls.Add(this.nRecogRadioButton);
             this.groupBox1.Controls.Add(this.loadButton);
             this.groupBox1.Controls.Add(this.tRecogRadioButton);
             this.groupBox1.Controls.Add(this.MooreRadioButton);
@@ -282,18 +284,18 @@
             this.groupBox1.Size = new System.Drawing.Size(200, 186);
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Тип автомата";
+            this.groupBox1.Text = "Новий автомат";
             // 
-            // recogRadioButton
+            // nRecogRadioButton
             // 
-            this.recogRadioButton.AutoSize = true;
-            this.recogRadioButton.Location = new System.Drawing.Point(6, 42);
-            this.recogRadioButton.Name = "recogRadioButton";
-            this.recogRadioButton.Size = new System.Drawing.Size(139, 17);
-            this.recogRadioButton.TabIndex = 2;
-            this.recogRadioButton.TabStop = true;
-            this.recogRadioButton.Text = "Неповний розпізнавач";
-            this.recogRadioButton.UseVisualStyleBackColor = true;
+            this.nRecogRadioButton.AutoSize = true;
+            this.nRecogRadioButton.Location = new System.Drawing.Point(6, 42);
+            this.nRecogRadioButton.Name = "nRecogRadioButton";
+            this.nRecogRadioButton.Size = new System.Drawing.Size(139, 17);
+            this.nRecogRadioButton.TabIndex = 2;
+            this.nRecogRadioButton.TabStop = true;
+            this.nRecogRadioButton.Text = "Неповний розпізнавач";
+            this.nRecogRadioButton.UseVisualStyleBackColor = true;
             // 
             // loadButton
             // 
@@ -351,6 +353,7 @@
             this.startS22.Size = new System.Drawing.Size(13, 13);
             this.startS22.TabIndex = 14;
             this.startS22.Text = "0";
+            this.startS22.SizeChanged += new System.EventHandler(this.startS22_SizeChanged);
             // 
             // addTableIn
             // 
@@ -487,7 +490,7 @@
             this.Controls.Add(this.groupBox1);
             this.Name = "Form1";
             this.Padding = new System.Windows.Forms.Padding(0, 0, 8, 8);
-            this.Text = "Form1";
+            this.Text = "Мінімізація автоматів";
             ((System.ComponentModel.ISupportInitialize)(this.mainTableIn)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.mainTableOut)).EndInit();
             this.groupBox1.ResumeLayout(false);
@@ -527,7 +530,7 @@
         private System.Windows.Forms.Button accept2;
         private System.Windows.Forms.Button accept1;
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.RadioButton recogRadioButton;
+        private System.Windows.Forms.RadioButton nRecogRadioButton;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.GroupBox groupBox4;

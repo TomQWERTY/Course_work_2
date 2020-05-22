@@ -1,0 +1,10 @@
+E:\Univer\Coursach_number_tu\CourseWork2\bin\Debug\CourseWork2.exe.config
+E:\Univer\Coursach_number_tu\CourseWork2\bin\Debug\CourseWork2.exe
+E:\Univer\Coursach_number_tu\CourseWork2\bin\Debug\CourseWork2.pdb
+E:\Univer\Coursach_number_tu\CourseWork2\obj\Debug\CourseWork2.csprojResolveAssemblyReference.cache
+E:\Univer\Coursach_number_tu\CourseWork2\obj\Debug\CourseWork2.Form1.resources
+E:\Univer\Coursach_number_tu\CourseWork2\obj\Debug\CourseWork2.Properties.Resources.resources
+E:\Univer\Coursach_number_tu\CourseWork2\obj\Debug\CourseWork2.csproj.GenerateResource.Cache
+E:\Univer\Coursach_number_tu\CourseWork2\obj\Debug\CourseWork2.exe
+E:\Univer\Coursach_number_tu\CourseWork2\obj\Debug\CourseWork2.pdb
+E:\Univer\Coursach_number_tu\CourseWork2\obj\Debug\CourseWork2.Form2.resources
